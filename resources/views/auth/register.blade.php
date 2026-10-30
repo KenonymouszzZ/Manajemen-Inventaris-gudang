@@ -1,13 +1,10 @@
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registrasi - Inventaris Gudang</title>
-</head>
-<body>
-    <h1>Inventaris Gudang</h1>
+@section('title', 'Registrasi - Inventaris Gudang')
+
+@section('content')
+<div class="auth-container">
+<h1>Inventaris Gudang</h1>
     <h2>Buat Akun Staff</h2>
 
     @if ($errors->any())
@@ -51,5 +48,5 @@
     <p>Sudah punya akun?
         <a href="{{ route('login') }}">Login</a>
     </p>
-</body>
-</html>
+</div>
+@endsection
