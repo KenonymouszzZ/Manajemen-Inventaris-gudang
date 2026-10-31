@@ -275,6 +275,86 @@ Relasi utama:
 - Satu produk dapat memiliki banyak transaksi stok.
 - Satu pengguna dapat memiliki banyak transaksi stok.
 
+### 9.1 Entity Relationship Diagram (ERD)
+
+ERD berikut menggambarkan hubungan antar tabel utama pada aplikasi GudangKu. Diagram menggunakan sintaks Mermaid dan dapat ditampilkan langsung oleh GitHub pada file Markdown.
+
+```mermaid
+erDiagram
+    USERS ||--o{ STOCK_TRANSACTIONS : mencatat
+    CATEGORIES ||--o{ PRODUCTS : memiliki
+    PRODUCTS ||--o{ STOCK_TRANSACTIONS : memiliki
+
+    USERS {
+        bigint id PK
+        string name
+        string email
+        string password
+        string role
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CATEGORIES {
+        bigint id PK
+        string name
+        text description
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PRODUCTS {
+        bigint id PK
+        bigint category_id FK
+        string sku
+        string name
+        text description
+        decimal price
+        integer stock
+        integer minimum_stock
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    STOCK_TRANSACTIONS {
+        bigint id PK
+        bigint product_id FK
+        bigint user_id FK
+        string type
+        integer quantity
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+### 9.2 Penjelasan Relasi
+
+| Relasi | Kardinalitas | Penjelasan |
+|---|---|---|
+| `categories` → `products` | One-to-Many (1:N) | Satu kategori dapat memiliki banyak produk. Setiap produk terhubung ke kategori melalui `category_id`. |
+| `products` → `stock_transactions` | One-to-Many (1:N) | Satu produk dapat memiliki banyak catatan transaksi stok. Setiap transaksi terhubung ke produk melalui `product_id`. |
+| `users` → `stock_transactions` | One-to-Many (1:N) | Satu pengguna dapat mencatat banyak transaksi stok. Setiap transaksi menyimpan pengguna melalui `user_id`. |
+
+### 9.3 Keterangan Primary Key dan Foreign Key
+
+| Tabel | Primary Key | Foreign Key |
+|---|---|---|
+| `users` | `id` | - |
+| `categories` | `id` | - |
+| `products` | `id` | `category_id` → `categories.id` |
+| `stock_transactions` | `id` | `product_id` → `products.id`; `user_id` → `users.id` |
+
+### 9.4 Alur Data
+
+1. Admin membuat kategori produk, misalnya Laptop.
+2. Admin menambahkan produk dan menghubungkannya dengan kategori melalui `category_id`.
+3. Admin atau staff yang memiliki akses mencatat transaksi barang masuk atau barang keluar.
+4. Sistem menyimpan transaksi dengan menghubungkannya ke produk dan pengguna yang sedang login.
+5. Stok produk diperbarui berdasarkan jenis dan jumlah transaksi.
+
+**Catatan:** Diagram ini mengikuti tabel dan relasi yang dijelaskan pada README. Untuk dokumentasi final yang sepenuhnya identik dengan database, cocokkan kembali nama kolom dan tipe datanya dengan file migration pada folder `database/migrations`.
+
 ## 10. Route / Halaman Utama
 
 | Halaman | URL |
