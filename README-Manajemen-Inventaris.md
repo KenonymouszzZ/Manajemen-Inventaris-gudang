@@ -279,6 +279,7 @@ Relasi utama:
 
 ERD berikut menggambarkan hubungan antar tabel utama pada aplikasi GudangKu. Diagram menggunakan sintaks Mermaid dan dapat ditampilkan langsung oleh GitHub pada file Markdown.
 
+```mermaid
 erDiagram
     CATEGORIES ||--o{ PRODUCTS : memiliki
     PRODUCTS ||--o{ STOCK_TRANSACTIONS : memiliki
@@ -317,7 +318,8 @@ erDiagram
         integer quantity
         text notes
     }
-    
+```
+
 ### 9.2 Penjelasan Relasi
 
 | Relasi | Kardinalitas | Penjelasan |
